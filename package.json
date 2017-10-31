@@ -23,6 +23,8 @@
     }
   },
   "devDependencies": {
-    "gulp-jade": "^1.1.0"
+    "electron-reload": "^1.2.2",
+    "gulp-jade": "^1.1.0",
+    "gulp-watch": "^4.3.11"
   }
 }
