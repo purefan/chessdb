@@ -1,0 +1,28 @@
+{
+  "name": "v1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "require-dir": "^0.3.2",
+    "sqlite3": "^3.1.13"
+  },
+  "settings": {
+    "path": {
+      "dist": "./dist",
+      "src": "./src",
+      "gulp": {
+        "tools": "./tools/gulp"
+      }
+    }
+  },
+  "devDependencies": {
+    "gulp-jade": "^1.1.0"
+  }
+}
