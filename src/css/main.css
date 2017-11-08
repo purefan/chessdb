@@ -1,0 +1,6 @@
+body {
+    background: #222;
+    color: #999;
+}
+
+@import "main_menu"

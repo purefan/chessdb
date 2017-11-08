@@ -7,4 +7,4 @@ gulp.settings       = settings
 // Load all the tasks
 Object.keys(tools).every((tool_name) => gulp.task(tool_name, tools[tool_name]))
 
-gulp.task('watch', ['html'])
+gulp.task('watch', ['html', 'css', 'js'])
