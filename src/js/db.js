@@ -1,18 +1,27 @@
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database(':memory:');
+console.log('on load')
+const vogula_db = require('pouchdb-browser')('vogula')
 
-db.serialize(function() {
-  db.run("CREATE TABLE lorem (info TEXT)");
+function addTodo(text) {
+    let todo = {
+        _id: new Date().toISOString(),
+        title: text,
+        completed: false
+    };
+    vogula_db.put(todo, function callback(err, result) {
+        if (!err) {
+            console.log('Successfully posted a todo!');
+        }
+    });
+}
 
-  var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
-  for (var i = 0; i < 10; i++) {
-      stmt.run("Ipsum " + i);
-  }
-  stmt.finalize();
+function showTodos() {
+    vogula_db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
+        if (err) {
+            return console.error(err)
+        }
+        console.log(doc);
+    });
+}
 
-  db.each("SELECT rowid AS id, info FROM lorem", function(err, row) {
-      console.log(row.id + ": " + row.info);
-  });
-});
-
-db.close();
+addTodo('Todo 1 at ' + (new Date()))
+showTodos()
