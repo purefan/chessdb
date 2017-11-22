@@ -1,27 +1,45 @@
-console.log('on load')
-const vogula_db = require('pouchdb-browser')('vogula')
+const db_name = 'vogula' + (process.env.NODE_ENV === 'test' ? '_text': '')
 
-function addTodo(text) {
-    let todo = {
-        _id: new Date().toISOString(),
-        title: text,
-        completed: false
-    };
-    vogula_db.put(todo, function callback(err, result) {
-        if (!err) {
-            console.log('Successfully posted a todo!');
-        }
-    });
+vogula.db = {}
+vogula.db.init = () => {
+    console.log(`vogula.db.init::db_name = ${db_name}`)
+    vogula.db._conn = require('pouchdb-browser')(db_name)
 }
 
-function showTodos() {
-    vogula_db.allDocs({ include_docs: true, descending: true }, function (err, doc) {
-        if (err) {
-            return console.error(err)
-        }
-        console.log(doc);
-    });
+vogula.db.get = (name) => {
+    return vogula.db._conn.get(name)
 }
 
-addTodo('Todo 1 at ' + (new Date()))
-showTodos()
+vogula.db.reset_db = () => {
+    console.log(`vogula.db.reset_db::db_name = ${db_name}`)
+    vogula.db._conn = require('pouchdb-browser')(db_name)
+}
+
+vogula.db._update = (doc, value) => {
+    console.log('in _update')
+    return vogula.db._conn.put(Object.assign(
+        {},
+        doc,
+        value,
+        {_rev: doc._rev}
+    ))
+}
+
+vogula.db.set = (name, value) => {
+    return vogula.db._conn
+        .get(name)
+            .then((doc) => {
+                console.log('in then')
+                return vogula.db._conn.put(Object.assign({}, doc, {_rev: doc._rev, value: value}))
+            })
+            .catch((e) => {
+                console.log('in catch', e.name)
+                if (e.name === 'not_found') {
+                    return vogula.db._conn.put({
+                        _id: name,
+                        value: value
+                    })
+                }
+            })
+
+}

@@ -2,9 +2,8 @@
 // vogula.js
 let vogula = {
     init: () => {
-        console.log('in vogula.init', vogula)
-        vogula.menu.init()
-
+        vogula.menu()
+        vogula.db.init()
     }
 }
 
