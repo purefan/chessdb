@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test electron-mocha --renderer --preload ./dist/vogula.js ./tests"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "del": "^3.0.0",
+    "electron-mocha": "^5.0.0",
     "electron-reload": "^1.2.2",
     "gulp-append-prepend": "^1.0.4",
     "gulp-concat": "^2.6.1",
