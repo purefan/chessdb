@@ -30,7 +30,7 @@ vogula.menu.append_submenu = (submenu, menu_label, position) => {
             vogula.log({'Adding a sub-menu': submenu})
             top_menu.submenu.append(submenu)
         }
-        return true
+        return vogula.menu.Menu.setApplicationMenu(current_menu_bar)
     }
     return false
 }
@@ -61,17 +61,15 @@ vogula.menu.init = () => {
         ]
     })
 
+    vogula.menu.add({
+        label: 'Edit',
+        submenu: []
+    })
+
     const new_menu_item = new vogula.menu.MenuItem({
         label: 'Preferences',
         click: () => { console.log('Clicked Preferences') }
     })
-
-    vogula.menu.add({
-        label: 'Edit',
-        submenu: [new_menu_item]
-    })
-
-
-    // vogula.menu.append_submenu(new_menu_item, 'Edit')
+    vogula.menu.append_submenu(new_menu_item, 'Edit')
 
 }
