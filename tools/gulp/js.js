@@ -10,10 +10,10 @@ function js() {
     watch(src_js, () => {
         console.log('Reloading javascript ' + (new Date()))
         this
-            .src([src_js, '!' + path.join(this.settings.path.src, 'js', 'vogula.js')])
+            .src([src_js, '!' + path.join(this.settings.path.src, 'js', 'core', 'vogula.js')])
             .pipe(debug())
             .pipe(concat('vogula.js'))
-            .pipe(gap.prependFile(path.join(this.settings.path.src, 'js', 'vogula.js')))
+            .pipe(gap.prependFile(path.join(this.settings.path.src, 'js', 'core', 'vogula.js')))
 
 
             .pipe(this.dest(path.join(this.settings.path.dist)))
