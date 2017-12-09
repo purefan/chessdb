@@ -68,7 +68,7 @@ vogula.menu.init = () => {
 
     const new_menu_item = new vogula.menu.MenuItem({
         label: 'Preferences',
-        click: () => { console.log('Clicked Preferences') }
+        click: () => vogula.event.trigger('click.menu.edit.preferences')
     })
     vogula.menu.append_submenu(new_menu_item, 'Edit')
 
