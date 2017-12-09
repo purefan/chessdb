@@ -1,10 +1,5 @@
-vogula.menu = () => {
-    const electron = require('electron')
-    this.remote = electron.remote
-    this.Menu = remote.Menu
-    this.MenuItem = remote.MenuItem
-    vogula.menu.init()
-}
+
+vogula.menu = {}
 
 /**
  * Adds a new Menu
@@ -12,20 +7,20 @@ vogula.menu = () => {
  */
 vogula.menu.add = (new_menu) => {
     // get the current menu items
-    const current_template = this.Menu.getApplicationMenu().items
+    const current_template = vogula.menu.Menu.getApplicationMenu().items
     current_template.push(new_menu)
 
     // Create a new menu
-    const menu = this.Menu.buildFromTemplate(current_template)
+    const menu = vogula.menu.Menu.buildFromTemplate(current_template)
 
     // Activate the new menu
-    this.Menu.setApplicationMenu(menu)
+    vogula.menu.Menu.setApplicationMenu(menu)
 
     console.log('Finished adding a new menu: ', new_menu, current_template)
 }
 
 vogula.menu.append_submenu = (submenu, menu_label, position) => {
-    const current_menu_bar = this.Menu.getApplicationMenu()
+    const current_menu_bar = vogula.menu.Menu.getApplicationMenu()
 
     const top_menu = current_menu_bar.items.find(top_menu => top_menu.label === menu_label)
     if (top_menu) {
@@ -52,6 +47,11 @@ vogula.menu.clear = () => {
  * Initializes the menu
  */
 vogula.menu.init = () => {
+    const electron = require('electron')
+
+    vogula.menu.remote = electron.remote
+    vogula.menu.Menu = electron.remote.Menu
+    vogula.menu.MenuItem = electron.remote.MenuItem
     vogula.menu.clear()
     vogula.menu.add({
         label: 'File',
@@ -60,7 +60,7 @@ vogula.menu.init = () => {
         ]
     })
 
-    const new_menu_item = new this.MenuItem({
+    const new_menu_item = new vogula.menu.MenuItem({
         label: 'MyQuit',
         click: () => { console.log('Clicked myQuit') }
     })

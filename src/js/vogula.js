@@ -2,8 +2,9 @@
 // vogula.js
 let vogula = {
     init: () => {
-        vogula.menu()
+        vogula.menu.init()
         vogula.db.init()
+        vogula.setting.init()
     }
 }
 

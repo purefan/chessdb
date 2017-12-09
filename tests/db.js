@@ -7,6 +7,7 @@ const assert = require('assert')
 describe('Vogula Database', () => {
     before(() => {
         vogula.db.reset_db()
+        vogula.menu.init()
     })
     const test_data = [
         {
