@@ -18,10 +18,11 @@ vogula.event.listen = function listen(event_name, fn) {
     this.slots[event_name].push(fn)
 }
 
-vogula.event.trigger = function(event_name, args) {
+vogula.event.trigger = function trigger(event_name, args) {
     vogula.log(`Triggering the event ${event_name}`)
     if (!this.slots[event_name]) {
         return vogula.log.error(`No one is listening for the event ${event_name}`)
     }
     this.slots.forEach((fn) => fn(args))
+    return true
 }
