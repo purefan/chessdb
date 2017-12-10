@@ -2,7 +2,10 @@
  * Event manager for vogula. Implements a slot/signal mechanism and debugging tools
  */
 vogula.event = {
-    slots: {}
+    // In slots the key is the name of the event and the value is an array of functions to call
+    slots: {},
+
+    handlers: {}
 }
 vogula.event.init = () => {}
 
@@ -18,11 +21,12 @@ vogula.event.listen = function listen(event_name, fn) {
     this.slots[event_name].push(fn)
 }
 
+
 vogula.event.trigger = function trigger(event_name, args) {
     vogula.log(`Triggering the event ${event_name}`)
     if (!this.slots[event_name]) {
         return vogula.log.error(`No one is listening for the event ${event_name}`)
     }
-    this.slots.forEach((fn) => fn(args))
+    this.slots[event_name].forEach((fn) => fn(args))
     return true
 }
