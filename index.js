@@ -2,6 +2,8 @@ const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
 const settings = require('./package.json').settings
+const ipcMain = require('electron').ipcMain;
+
 require('electron-reload')(settings.path.dist)
 
 // Keep a global reference of the window object, if you don't, the window will
@@ -29,6 +31,16 @@ function createWindow() {
         // when you should delete the corresponding element.
         win = null
     })
+
+    ipcMain.on('from-a-modular-browser', function (event, arg) {
+        console.log(arg);  // prints "ping"
+        event.sender.send('from-the-main-process', 'pong');
+    });
+
+    ipcMain.on('synchronous-message', function (event, arg) {
+        console.log(arg);  // prints "ping"
+        event.returnValue = 'pong';
+    });
 }
 
 // This method will be called when Electron has finished
