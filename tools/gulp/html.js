@@ -4,7 +4,7 @@
 const path = require('path')
 const watch = require('gulp-watch')
 const jade = require('gulp-jade')
-// const del = require('node-delete')
+const gap = require('gulp-append-prepend')
 const jade_concat = require('gulp-jade-template-concat');
 const del = require('del')
 const debug = require('gulp-debug')
@@ -25,7 +25,6 @@ function html() {
             .pipe(jade({
                 pretty: true
             }))
-            // .pipe(jade_concat('index.html', {templateVariable:"templates"}))
             .pipe(this.dest(this.settings.path.dist))
         stream.on('end', () => {
             del(
@@ -38,12 +37,18 @@ function html() {
     const watch_modals = () => {
         const stream = this
             .src(src_modals_jade)
-            .pipe(jade({pretty: true}))
+            .pipe(gap.prependFile(path.join(this.settings.path.src, 'html', 'modals', 'template.jade')))
+            .pipe(jade({
+                pretty: true,
+                locals: {
+                    css: fs.readFileSync(path.join(this.settings.path.dist, 'main.css'))
+                }
+            }))
             .pipe(this.dest(path.join(this.settings.path.dist,'modals')))
     }
 
     watch(src_core_jade, watch_jade_core_files)
-    watch(src_modals_jade, watch_modals)
+    watch([src_modals_jade, path.join(this.settings.path.src, 'html', 'modals', 'template.jade')], watch_modals)
 }
 
 module.exports = html
