@@ -32,15 +32,18 @@ function createWindow() {
         win = null
     })
 
-    ipcMain.on('from-a-modular-browser', function (event, arg) {
-        console.log(arg);  // prints "ping"
-        event.sender.send('from-the-main-process', 'pong');
+    ipcMain.on('from-a-modular-browser', function (event, channel, data) {
+        console.log('process::main::ipcMain', channel, data);  // prints "ping"
+        // const all_data = Array.prototype.slice.call(arguments, 1);
+        // event.sender.send('from-the-main-process', 'pong');
+        console.log(win.webContents)
+        win.webContents.send('from-main-process', channel, data)
     });
 
-    ipcMain.on('synchronous-message', function (event, arg) {
-        console.log(arg);  // prints "ping"
+    /* ipcMain.on('synchronous-message', function (event, arg) {
+        console.log(arguments);  // prints "ping"
         event.returnValue = 'pong';
-    });
+    }); */
 }
 
 // This method will be called when Electron has finished

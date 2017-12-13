@@ -10,6 +10,7 @@ let vogula = {
             vogula.menu.init()
             vogula.db.init()
             vogula.setting.init()
+            vogula.modal.init()
             vogula.event.init()
         } else {
             console.log('Is modal')

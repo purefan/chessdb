@@ -2,6 +2,11 @@
 
 vogula.modal = {}
 
+vogula.modal.init = function() {
+    const {ipcRenderer} = require('electron')
+    ipcRenderer.on('from-main-process', vogula.modal.trigger)
+}
+
 vogula.modal.open = function(path_to_modal) {
     const fs            = require('fs')
     const path          = require('path')
@@ -25,8 +30,24 @@ vogula.modal.open = function(path_to_modal) {
     const loadView = fs.readFileSync(modal_html, {encoding: 'utf-8'}).replace('__JS__', js)
     // is there a JS file
 
-    console.log('loadView', loadView)
     const file = 'data:text/html;charset=UTF-8,' + encodeURIComponent(loadView);
     win.webContents.openDevTools()
     win.loadURL(file);
+}
+
+/**
+ * This function is the only one triggered from a modal window.
+ * It routes requests from a modal window to a vogula function
+ */
+vogula.modal.trigger = function trigger(event, channel, data) {
+    // channel is in the form of module.method
+    const [route_module, method] = channel.split('.')
+    if (!vogula[route_module] || !vogula[route_module][method]) {
+        throw "Thats not a valid channel"
+    }
+    vogula[route_module][method](data)
+}
+
+vogula.modal.test = (data) => {
+    console.log('-----------------------> in modal test', data)
 }
