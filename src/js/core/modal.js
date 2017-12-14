@@ -16,6 +16,7 @@ vogula.modal.open = function(path_to_modal) {
     const path_parts = path_to_modal.split('.')
     const modal_html = path.join.apply(this, [settings.path.dist, 'modals'].concat(path_parts[path_parts.length -1])) + '.html'
     const path_to_js = path.join.apply(this, [settings.path.dist, 'modals', 'js'].concat(path_parts)) + '.js'
+    const path_to_css = path.join(settings.path.dist, 'main.css') // When support for multiple themes is implemented this will become a setting
 
     console.log('modal_html', modal_html)
     console.log(`path_to_js: ${path_to_js}`)
@@ -27,8 +28,11 @@ vogula.modal.open = function(path_to_modal) {
 
     console.log(`Reading modal from ${modal_html}`)
     const js = fs.readFileSync(path_to_js, {encoding: 'utf-8'})
-    const loadView = fs.readFileSync(modal_html, {encoding: 'utf-8'}).replace('__JS__', js)
-    // is there a JS file
+    const css = fs.readFileSync(path_to_css, {encoding: 'utf-8'})
+    const loadView = fs
+        .readFileSync(modal_html, {encoding: 'utf-8'})
+        .replace('__JS__', js)
+        .replace('__CSS__', css)
 
     const file = 'data:text/html;charset=UTF-8,' + encodeURIComponent(loadView);
     win.webContents.openDevTools()

@@ -4,15 +4,13 @@
 *   But it should be seen as a bridge between the modal and the main renderer
 *   Any function named `init` present in the modals will be called automatically
 */
-const ipcRenderer = require('electron').ipcRenderer;
+const {ipcRenderer} = require('electron');
 
-
-const handler = {
+const vogula_proxy_handler = {
     get: function(target, module_name) {
         const fake_method = {
             get: function(target, method_name) {
                 return function() {
-                    console.log('in a fake function with arguments', arguments)
                     ipcRenderer.send('from-a-modular-browser', `${module_name}.${method_name}`, arguments);
                 }
             }
@@ -22,4 +20,4 @@ const handler = {
     }
 };
 
-const vogula = new Proxy({}, handler);
+const vogula = new Proxy({}, vogula_proxy_handler);

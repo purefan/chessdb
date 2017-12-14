@@ -39,10 +39,7 @@ function html() {
             .src(src_modals_jade)
             .pipe(gap.prependFile(path.join(this.settings.path.src, 'html', 'modals', 'template.jade')))
             .pipe(jade({
-                pretty: true,
-                locals: {
-                    css: fs.readFileSync(path.join(this.settings.path.dist, 'main.css'))
-                }
+                pretty: true
             }))
             .pipe(this.dest(path.join(this.settings.path.dist,'modals')))
     }
