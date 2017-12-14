@@ -43,7 +43,7 @@ vogula.modal.trigger = function trigger(event, channel, data) {
     // channel is in the form of module.method
     const [route_module, method] = channel.split('.')
     if (!vogula[route_module] || !vogula[route_module][method]) {
-        throw "Thats not a valid channel"
+        throw `Invalid channel: ${channel}`
     }
     vogula[route_module][method](data)
 }

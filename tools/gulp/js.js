@@ -23,6 +23,7 @@ function js() {
         this
             .src([src_modal])
             .pipe(debug({title: 'js::modal'}))
+            .pipe(gap.prependFile(path.join(this.settings.path.src, 'js', 'modal', 'modal_base.js')))
             .pipe(this.dest(path.join(this.settings.path.dist, 'modals', 'js')))
     })
 }
