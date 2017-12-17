@@ -1,0 +1,43 @@
+/*
+ * Board
+ */
+ .cg-board-wrap {
+    background-image: url(../board/blue.svg);
+  }
+
+  piece.pawn.white {
+    background-image: url('merida/wP.svg');
+  }
+  piece.bishop.white {
+    background-image: url('merida/wB.svg');
+  }
+  piece.knight.white {
+    background-image: url('merida/wN.svg');
+  }
+  piece.rook.white {
+    background-image: url('merida/wR.svg');
+  }
+  piece.queen.white {
+    background-image: url('merida/wQ.svg');
+  }
+  piece.king.white {
+    background-image: url('merida/wK.svg');
+  }
+  piece.pawn.black {
+    background-image: url('merida/bP.svg');
+  }
+  piece.bishop.black {
+    background-image: url('merida/bB.svg');
+  }
+  piece.knight.black {
+    background-image: url('merida/bN.svg');
+  }
+  piece.rook.black {
+    background-image: url('merida/bR.svg');
+  }
+  piece.queen.black {
+    background-image: url('merida/bQ.svg');
+  }
+  piece.king.black {
+    background-image: url('merida/bK.svg');
+  }

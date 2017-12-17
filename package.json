@@ -4,15 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test electron-mocha --renderer --preload ./dist/vogula.js ./tests"
+    "test": "NODE_ENV=test electron-mocha --renderer --preload ./dist/vogula.js ./tests",
+    "start": "webpack --config webpack.config.js -d --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chessground": "^7.2.10",
+    "css-loader": "^0.28.7",
     "gulp": "^3.9.1",
+    "mithril": "^1.1.6",
     "pouchdb-browser": "^6.3.4",
     "require-dir": "^0.3.2",
-    "sqlite3": "^3.1.13"
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.19.1",
+    "svg-url-loader": "^2.3.0",
+    "vue": "^2.5.11"
   },
   "settings": {
     "path": {
@@ -32,6 +39,7 @@
     "gulp-debug": "^3.1.0",
     "gulp-jade": "^1.1.0",
     "gulp-sass": "^3.1.0",
-    "gulp-watch": "^4.3.11"
+    "gulp-watch": "^4.3.11",
+    "webpack": "^3.10.0"
   }
 }
