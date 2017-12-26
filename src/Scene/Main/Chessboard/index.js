@@ -5,10 +5,6 @@ module.exports = {
 
 function view_fn() {
     const m = require('mithril')
-
-    // const ground = chessboard(document.getElementById('board_container'), config)
-    const btn = m("button", "some clicks 2")
-    const header = m("h1", {class: "title"}, "My first app")
     const board_container = m('div', {
         id: 'board_container',
         oncreate: function() {
@@ -52,7 +48,7 @@ function view_fn() {
             const ground = chessboard(document.getElementById('board_container'), config)
         }
     })
-    const result = m("main", [header,btn, board_container])
+    const result = m("main", [board_container])
     return result
 }
 

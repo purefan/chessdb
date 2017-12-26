@@ -1,8 +1,9 @@
 const path = require('path')
-// src/views/main.js dist/vogula.js
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 
 module.exports = {
-    entry: './src/views/main.js',
+    entry: './src/Scene/Main/index.js',
     output: {
         filename: 'vogula.js',
         path: path.resolve(__dirname, 'dist')
@@ -12,10 +13,32 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-            },
+            }/* ,
             {
                 test: /\.sass$/,
-                use: ['style-loader', 'sass-loader']
+                use: ['style-loader', 'resolve-url-loader','sass-loader']
+            }, */
+            , {
+                test: /\.scss$/,
+                use: [
+                    {
+                        loader: "style-loader" // creates style nodes from JS strings
+                    },
+                    {
+                        loader: "css-loader" // translates CSS into CommonJS
+                        , options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'resolve-url-loader'
+                    },
+                    {
+                        loader: "sass-loader?sourceMap" // compiles Sass to CSS
+                        , options: {
+                            sourceMap: true
+                        }
+                    }]
             },
             {
                 test: /\.svg$/,
