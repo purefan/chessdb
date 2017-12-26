@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 
 module.exports = {
-    entry: './src/Scene/Main/index.js',
+    entry: './src/Scene/layout.js',
     output: {
         filename: 'vogula.js',
         path: path.resolve(__dirname, 'dist')

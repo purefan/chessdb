@@ -5,7 +5,6 @@
  * You need to include the css files in themes folder in order to have the
  * board and pieces displayed!
  */
- @import 'images/pieces/stauton.css';
 
  .cg-board-wrap {
     width: 320px;

@@ -8,7 +8,7 @@ const engine_panel = () =>  {
     const btn_start = m('button', 'start')
     const btn_configure = m('button', 'configure')
     const toolbar = m('div', btn_start, btn_configure)
-    return m('div.display_chess_engine', '-- chess engine -- ', toolbar)
+    return m('chess_engine', toolbar)
 }
 
 module.exports = {

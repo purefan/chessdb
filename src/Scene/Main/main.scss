@@ -1,7 +1,6 @@
 @import "../palette.scss";
 
-body {
-  font: 100% $font-stack;
-  color: $light-1;
-  background: $dark-1;
+.main {
+  display: table;
 }
+

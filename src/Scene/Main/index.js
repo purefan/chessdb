@@ -11,33 +11,17 @@ const chessboard = require('./Chessboard')
 const chess_engine = require('./ChessEngine')
 //const games_list = require('./GamesList')
 
-console.log('chess engine', chess_engine)
-const main = m('div', [chessboard, chess_engine])
-
 const test = {
 	controller: function(){
 		this.inputValue = m.prop("")
 	},
 
-	view: function(ctrl){
-		return m("div", { },
-            chessboard.view(),
-            chess_engine.view(),
-			m("h1", "Welcome"),
-			m("div.input-group",
-
-					m("span.input-group-addon#addon","Label: "),
-					m("input[type=text].form-control",{
-						inputValue: "ctrl.inputValue()",
-						oninput: m.withAttr("value", "ctrl.inputValue"),
-						placeholder: "Edit src/components/example live!"
-					}, "")
-
-			)
+	view: function(ctrl) {
+		return m("div", { class:'main view' },
+            m('main_left', chessboard.view()),
+            m('main_right', chess_engine.view())
 		)
 	}
 }
 
-m.mount(document.body, {
-    view: test.view
-})
+module.exports = test

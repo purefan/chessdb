@@ -1,4 +1,7 @@
-require('./main.css')
+require('./board.css')
+require('./images/pieces/stauton.css')
+require('./index.scss')
+
 module.exports = {
     view: view_fn
 }
@@ -8,7 +11,6 @@ function view_fn() {
     const board_container = m('div', {
         id: 'board_container',
         oncreate: function() {
-            console.log('--- oncreate')
             const chessboard = require('chessground').Chessground
             const config = {
                 events: {
