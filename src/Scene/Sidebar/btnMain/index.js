@@ -2,17 +2,17 @@
  * This is just the button to enable the Scene "Main"
  */
 
-
 const test = {
-    controller: function () {
-        this.inputValue = m.prop("")
+    controller: function (ctrl) {
+        this.inputValue = ctrl.attrs.m.prop("")
     },
 
     view: function (ctrl) {
-        const m = require('mithril')
-        return m("button", {
-
-        }, 'Main'
+        return ctrl.attrs.m("button", {
+                onclick: () => {
+                    ctrl.attrs.log('in the button onclick')
+                }
+            }, 'Main'
         )
     }
 }

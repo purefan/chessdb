@@ -9,29 +9,36 @@
  *      - Help
  */
 
-
+// CSS
 require('./layout.scss')
-const m = require("mithril")
 
-const Main = require('./Main')
-const Sidebar = require('./Sidebar')
-/**
- * @todo Move Sidebar to Sidebar
- */
-const test = {
+// Libraries
+const m 		= require("mithril")
+const log 		= require('../js/core/logger')
+
+// Components
+const Main 		= require('./Main')
+const Sidebar 	= require('./Sidebar')
+
+const layout = {
 	controller: function(){
 		this.inputValue = m.prop("")
 	},
 
-	view: function(ctrl) {
-		return m("div", { class: 'vogula'},
-        Sidebar.view()
-        , Main.view()
-
+	view: function(vnode) {
+		const attrs = {
+			log: log,
+			m: m
+		}
+		return m(
+			"div"
+			, { class: 'vogula'}
+			, m(Sidebar, attrs)
+			, m(Main, attrs)
 		)
 	}
 }
 
 m.mount(document.body, {
-    view: test.view
+	view: layout.view
 })

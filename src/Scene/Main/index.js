@@ -1,11 +1,12 @@
 'use strict';
 
 /**
- * This is the main window, the parent "frame"
+ * This is the main window, where the main board is
  */
-// require('./../palette.scss')
 require('./main.scss')
- // require('../palette.scss')
+
+const foo = require("./../../js/core/event");
+
 const m = require("mithril")
 const chessboard = require('./Chessboard')
 const chess_engine = require('./ChessEngine')

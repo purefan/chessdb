@@ -1,23 +1,25 @@
-/**
- * Holds links to Main and Settings
- */
 
-
-const sideBar = {
-    controller: function () {
-        this.inputValue = m.prop("")
+const Sidebar = {
+    controller: function controller(ctrl) {
+        this.inputValue = ctrl.attrs.m.prop("aloha")
     },
 
-    view: function (ctrl) {
-        const m = require("mithril")
+    view: function view(ctrl) {
         const btnMain = require('./btnMain')
-        return m("div", {
-            class: ['sidebar']
-        },
-            btnMain.view()
-            )
+        return ctrl.attrs.m(
+            "div", {
+                class: ['sidebar']
+            },
+            ctrl.attrs.m(btnMain, ctrl.attrs),
+            ctrl.attrs.m('div', this.inputValue)
+        )
+    },
 
+    oninit: function oninit(ctrl) {
+        console.log('[sidebar::onInit]', ctrl, ctrl.state)
+        ctrl.attrs.log('yeah')
     }
 }
 
-module.exports = sideBar
+
+module.exports = Sidebar
