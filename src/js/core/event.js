@@ -1,20 +1,20 @@
 /**
- * Event manager for vogula. Implements a slot/signal mechanism and debugging tools
+ * Event manager for vogula Implements a slot/signal mechanism and debugging tools
  */
-vogula.event = {
+const event = {
     // In slots the key is the name of the event and the value is an array of functions to call
     slots: {},
 
     handlers: {}
 }
-vogula.event.init = () => {}
+event.init = () => {}
 
 /**
  * Registers a function to be called when event_name is triggered
  * @param event_name string
  * @param fn function
  */
-vogula.event.listen = function listen(event_name, fn) {
+event.listen = function listen(event_name, fn) {
     if (!this.slots[event_name]) {
         this.slots[event_name] = []
     }
@@ -22,11 +22,13 @@ vogula.event.listen = function listen(event_name, fn) {
 }
 
 
-vogula.event.trigger = function trigger(event_name, args) {
-    vogula.log(`Triggering the event ${event_name}`)
+event.trigger = function trigger(event_name, args) {
+    log(`Triggering the event ${event_name}`)
     if (!this.slots[event_name]) {
-        return vogula.log.error(`No one is listening for the event ${event_name}`)
+        return log.error(`No one is listening for the event ${event_name}`)
     }
     this.slots[event_name].forEach((fn) => fn(args))
     return true
 }
+
+module.exports = event
