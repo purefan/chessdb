@@ -17,7 +17,7 @@ const m 		= require("mithril")
 const log 		= require('../js/core/logger')
 
 // Components
-const Main 		= require('./Main')
+const Content   = require('./Content/content.js')
 const Sidebar 	= require('./Sidebar')
 
 const layout = {
@@ -34,7 +34,7 @@ const layout = {
 			"div"
 			, { class: 'vogula'}
 			, m(Sidebar, attrs)
-			, m(Main, attrs)
+			, m(Content, attrs)
 		)
 	}
 }
