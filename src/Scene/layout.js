@@ -32,7 +32,7 @@ const layout = {
 		}
 		return m(
 			"div"
-			, { class: 'vogula'}
+			, { class: 'libase'}
 			, m(Sidebar, attrs)
 			, m(Content, attrs)
 		)

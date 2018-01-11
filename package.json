@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test electron-mocha --renderer --preload ./dist/vogula.js ./tests",
+    "test": "NODE_ENV=test electron-mocha --renderer --preload ./dist/libase.js ./tests",
     "start": "webpack --config webpack.config.js -d --watch"
   },
   "author": "",
