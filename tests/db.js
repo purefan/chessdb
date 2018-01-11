@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 const assert = require('assert')
-describe('Vogula Database', () => {
+describe('Libase Database', () => {
     before(() => {
         vogula.db.reset_db()
         vogula.menu.init()

@@ -5,7 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 module.exports = {
     entry: './src/Scene/layout.js',
     output: {
-        filename: 'vogula.js',
+        filename: 'libase.js',
         path: path.resolve(__dirname, 'dist')
     },
     module: {

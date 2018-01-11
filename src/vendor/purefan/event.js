@@ -1,5 +1,5 @@
 /**
- * Event manager for vogula Implements a slot/signal mechanism and debugging tools
+ * Event manager for libase Implements a slot/signal mechanism and debugging tools
  */
 const event = {
     // In slots the key is the name of the event and the value is an array of functions to call

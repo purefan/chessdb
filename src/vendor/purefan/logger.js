@@ -7,7 +7,7 @@ log.error = function error(what, level) {
 }
 
 // define default values for the setting
-/* vogula.log.setting = {
+/* libase.log.setting = {
     levels : {
         OFF: 0,     // No logging at all
         INFO: 1,    // High level - End user info, suitable for GUI display
