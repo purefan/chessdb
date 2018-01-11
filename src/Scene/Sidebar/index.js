@@ -1,22 +1,21 @@
 
 const Sidebar = {
-    controller: function controller(ctrl) {
-        this.inputValue = ctrl.attrs.m.prop("aloha")
-    },
+    controller: function controller(ctrl) {},
 
     view: function view(ctrl) {
-        const btnMain = require('./btnMain')
+        const btnMain       = require('./btnMain')
+        const btnSettings   = require('./btnSettings')
+
         return ctrl.attrs.m(
             "div", {
                 class: ['sidebar']
             },
             ctrl.attrs.m(btnMain, ctrl.attrs),
-            ctrl.attrs.m('div', this.inputValue)
+            ctrl.attrs.m(btnSettings, ctrl.attrs)
         )
     },
 
     oninit: function oninit(ctrl) {
-        console.log('[sidebar::onInit]', ctrl, ctrl.state)
         ctrl.attrs.log('yeah')
     }
 }

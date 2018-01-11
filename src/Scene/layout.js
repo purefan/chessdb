@@ -14,31 +14,32 @@ require('./layout.scss')
 
 // Libraries
 const m 		= require("mithril")
-const log 		= require('../js/core/logger')
+const log 		= require('../vendor/purefan/logger')
 
 // Components
 const Content   = require('./Content/content.js')
 const Sidebar 	= require('./Sidebar')
 
-const layout = {
-	controller: function(){
+const Layout = {
+	controller: function(ctrl) {
 		this.inputValue = m.prop("")
 	},
 
 	view: function(vnode) {
-		const attrs = {
-			log: log,
-			m: m
-		}
+		console.log('redrawing the Layout view',  state)
 		return m(
 			"div"
 			, { class: 'libase'}
-			, m(Sidebar, attrs)
-			, m(Content, attrs)
+			, m(Sidebar, state)
+			, m(Content, state)
 		)
 	}
 }
 
-m.mount(document.body, {
-	view: layout.view
-})
+const state = {
+	log: log,
+	m: m,
+	active_scene: 'Main'
+}
+
+m.mount(document.body, Layout)
