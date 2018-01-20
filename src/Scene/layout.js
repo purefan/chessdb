@@ -14,7 +14,7 @@ require('./layout.scss')
 
 // Libraries
 const m 		= require("mithril")
-const log 		= require('../vendor/purefan/logger')
+import {Settings, DB, Log} from '../vendor/purefan'
 
 // Components
 const Content   = require('./Content/content.js')
@@ -36,10 +36,13 @@ const Layout = {
 	}
 }
 
+Settings.get()
 const state = {
-	log: log,
-	m: m,
-	active_scene: 'Main'
+	log: 			Log,
+	m: 				m,
+	db: 			DB,
+	settings:		Settings,
+	active_scene: 	'Settings' // default
 }
 
 m.mount(document.body, Layout)

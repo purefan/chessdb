@@ -4,7 +4,7 @@ const Sidebar = {
 
     view: function view(ctrl) {
         const btnMain       = require('./btnMain')
-        const btnSettings   = require('./btnSettings')
+        const btnSettings   = require('./btnSettings/btnSettings')
 
         return ctrl.attrs.m(
             "div", {
