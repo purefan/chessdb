@@ -1,5 +1,6 @@
 @import "../style/default/palette.scss";
 @import "../style/default/checkbox.css";
+@import "../style/default/table.css";
 
 body, html, document {
     width: 100%;
@@ -15,7 +16,7 @@ body, html, document {
 .libase {
     display: table;
     height: 100%;
-    width: 100;
+    width: 100%;
 }
 
 .view {
@@ -24,5 +25,10 @@ body, html, document {
 
 .sidebar {
     display: table-cell;
-    width: 30%;
+    width: 10%;
+}
+
+.content {
+    display: table-cell;
+    width: 90%;
 }
