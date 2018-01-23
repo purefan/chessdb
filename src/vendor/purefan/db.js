@@ -44,7 +44,7 @@ db.set = (name, value) => {
             return db._conn.put(Object.assign({}, doc, { _rev: doc._rev, value: value }))
         })
         .catch((e) => {
-            error('in catch', e.name)
+            console.error('in catch', e.name)
             if (e.name === 'not_found') {
                 return db._conn.put({
                     _id: name,

@@ -1,5 +1,7 @@
 'use strict'
 
+require('./settings.scss')
+
 const Settings = {
     settings: [1,2,3],
     oninit: function (vnode) {
@@ -17,31 +19,46 @@ const Settings = {
         const self = this
         const categories = Object.keys(vnode.state.settings)
         const v_settings = []
-        // https://codepen.io/ChidoYo/pen/mvFct?editors=1100
+        //
         return categories.map((category) => {
-            console.log('category:', category)
             return Object.keys(vnode.state.settings[category]).map((setting_name) => {
                 const setting = vnode.state.settings[category][setting_name]
+                setting.name = setting_name
+                setting.category = category
+                let setting_vnode = null
                 if (setting.type === 'boolean') {
-                    return vnode.state.build_onoff_switch(vnode, setting)
+                    setting_vnode = vnode.state.build_onoff_switch(vnode, setting)
                 }
+
+                // build the row
+                return vnode.attrs.m('div', {class: 'table'},
+                    vnode.attrs.m('div', {class: 'table-row'},
+                        vnode.attrs.m('div', {class: 'table-left setting-name'}, setting.name),
+                        vnode.attrs.m('div', {class: 'table-right setting-value'}, setting_vnode)
+                    )
+                )
             })
         })
 
     },
     build_onoff_switch: (vnode, setting) => {
+        console.log('--- setting', setting)
         return vnode.attrs.m('div', {class: 'onoffswitch'},
             vnode.attrs.m('input', {
                 type: 'checkbox',
                 name: 'onoffswitch',
                 class: 'onoffswitch-checkbox',
                 id: 'onoffswitch',
-                checked: true,
-                onclick: () => { console.log('clicked')}
+                onclick: vnode.attrs.m.withAttr('checked', function(value) {
+                    console.log('Checked clicked and value', value)
+                    setting.value = value
+                    vnode.attrs.settings.set(setting.name, setting)
+                }),
+                checked: !!setting.value
             }),
             vnode.attrs.m('label', {
                 class: 'onoffswitch-label',
-                for: 'myonoffswitch'
+                for: 'onoffswitch'
             },
                 vnode.attrs.m('span.onoffswitch-inner'),
                 vnode.attrs.m('span.onoffswitch-switch')
@@ -51,7 +68,7 @@ const Settings = {
     view: (vnode) => {
         console.log('this', vnode.state.settings, this)
 
-        return vnode.attrs.m('div', {class: 'sasasa', onclick: () => {console.log('sasasasa')}},
+        return vnode.attrs.m('div', {class: 'sasasa'},
             'This is settings'
             , vnode.state.build_settings(vnode)
         )
