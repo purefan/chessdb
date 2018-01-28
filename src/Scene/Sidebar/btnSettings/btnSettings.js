@@ -7,7 +7,8 @@ const btnSettings = {
 
     view: function (ctrl) {
         return ctrl.attrs.m("button", {
-                onclick: () => {
+            class: ctrl.attrs.active_scene === 'Settings' ? 'active' : '',
+            onclick: () => {
                     ctrl.attrs.active_scene = "Settings"
                 }
             }, 'Settings'

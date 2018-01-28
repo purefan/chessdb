@@ -25,10 +25,13 @@ body, html, document {
 
 .sidebar {
     display: table-cell;
+    vertical-align: top;
     width: 10%;
 }
 
 .content {
     display: table-cell;
     width: 90%;
+    padding: 2%;
+    vertical-align: top;
 }

@@ -1,0 +1,17 @@
+@import "../../style/default/palette.scss";
+
+.sidebar {
+    button {
+        width: 100%;
+        margin-top: 5%;
+        background: $dark-1;
+        color: $light-1;
+        border: 0;
+        font-size: 120%;
+    }
+
+    button.active {
+        background: $background-active-1;
+        color:  #FFF;
+    }
+}

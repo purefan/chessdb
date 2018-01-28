@@ -42,7 +42,7 @@ const state = {
 	m: 				m,
 	db: 			DB,
 	settings:		Settings,
-	active_scene: 	'Settings' // default
+	active_scene: 	'Main' // default
 }
 
 m.mount(document.body, Layout)

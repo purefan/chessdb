@@ -1,4 +1,15 @@
 .main {
   display: table;
+  height: 100%;
+  width: 100%;
 }
 
+main_left {
+  display: table-cell;
+  height: 100%;
+}
+
+main_right {
+  height: 100%;
+  display: table-cell;
+}

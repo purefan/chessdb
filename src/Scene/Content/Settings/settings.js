@@ -42,36 +42,11 @@ const Settings = {
         console.log('all', all)
         return all
     },
-    /* build_onoff_switch: (vnode, setting) => {
-        console.log('--- setting', setting)
-        return vnode.attrs.m('div', {class: 'onoffswitch'},
-            vnode.attrs.m('input', {
-                type: 'checkbox',
-                name: 'onoffswitch',
-                class: 'onoffswitch-checkbox',
-                id: 'onoffswitch',
-                onclick: vnode.attrs.m.withAttr('checked', function(value) {
-                    console.log('Checked clicked and value', value)
-                    setting.value = value
-                    vnode.attrs.settings.set(setting.name, setting)
-                }),
-                checked: !!setting.value
-            }),
-            vnode.attrs.m('label', {
-                class: 'onoffswitch-label',
-                for: 'onoffswitch'
-            },
-                vnode.attrs.m('span.onoffswitch-inner'),
-                vnode.attrs.m('span.onoffswitch-switch')
-            )
-        )
-    }, */
     view: (vnode) => {
         console.log('this', vnode.state.settings, this)
 
         return vnode.attrs.m('div', {class: 'sasasa'},
-            'This is settings'
-            , vnode.state.build_settings(vnode)
+            vnode.state.build_settings(vnode)
         )
     }
 }

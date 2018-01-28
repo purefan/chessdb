@@ -7,6 +7,7 @@ const btnMain = {
 
     view: function (ctrl) {
         return ctrl.attrs.m("button", {
+                class: ctrl.attrs.active_scene === 'Main' ? 'active' : '',
                 onclick: () => {
                     ctrl.attrs.active_scene = 'Main'
                 }

@@ -1,4 +1,6 @@
 
+require('./sidebar.scss')
+
 const Sidebar = {
     controller: function controller(ctrl) {},
 

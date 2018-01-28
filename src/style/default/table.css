@@ -4,9 +4,11 @@
 }
 
 .table-row {
+    vertical-align: middle;
     display: table-row;
 }
 
 .table-left {
-    display: table-cell
+    display: table-cell;
+    vertical-align: middle;
 }
