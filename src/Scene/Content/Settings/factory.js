@@ -4,7 +4,9 @@ const Factory = {
     process_settings: (attrs, settings) => {
         const categories = Object.keys(settings)
 
-        return categories.map((category) => {
+        return categories
+            .filter(category => !settings[category].hidden)
+            .map((category) => {
             return [
                 attrs.m('div', {class: 'table-row section-title'},
                     attrs.m('div', {class: 'table-left'}, attrs.m('h2', category)),
@@ -22,7 +24,6 @@ const Factory = {
     },
 
     build_setting_value: (attrs, setting) => {
-        console.log('build_setting', setting)
         if (setting.type === 'boolean') {
             return Factory.make_boolean(attrs, setting)
         }
@@ -32,8 +33,6 @@ const Factory = {
         if (setting.type === 'list_of_engines') {
             return Factory.make_list_of_engines(attrs, setting)
         }
-
-        console.log('Non handled setting type: ' + setting.type)
     },
 
     make_boolean: (attrs, setting) => {

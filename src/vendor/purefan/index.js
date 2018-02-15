@@ -1,6 +1,6 @@
 import Settings from './settings.js'
 import DB from './db.js'
 import Log from './logger'
-import UCI from './uci'
+import UCIEngine from './uciengine'
 
-export {Settings, DB, Log, UCI}
+export {Settings, DB, Log, UCIEngine}

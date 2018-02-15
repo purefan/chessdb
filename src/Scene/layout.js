@@ -14,12 +14,12 @@ require('./layout.scss')
 
 // Libraries
 const m 		= require("mithril")
-import {Settings, DB, Log, UCI} from '../vendor/purefan'
+import {Settings, DB, Log, UCIEngine} from '../vendor/purefan'
 
 // Components
-const Content   = require('./Content/content.js')
-const Sidebar 	= require('./Sidebar')
-
+const Content   	= require('./Content/content')
+const Sidebar 		= require('./Sidebar')
+const EventEmitter 	= require('events')
 const Layout = {
 	view: function(vnode) {
 		return m(
@@ -31,14 +31,13 @@ const Layout = {
 	}
 }
 
-Settings.get()
 const state = {
 	log: 			Log,
 	m: 				m,
 	db: 			DB,
 	settings:		Settings,
-	UCIEngine: 		UCI,
-	active_scene: 	'Main' // default
+	UCIEngine: 		UCIEngine,
+	eventer:		new EventEmitter()
 }
 
 m.mount(document.body, Layout)
