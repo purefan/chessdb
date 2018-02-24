@@ -2,18 +2,16 @@
 require('./sidebar.scss')
 
 const Sidebar = {
-    controller: function controller(ctrl) {},
-
-    view: function view(ctrl) {
-        const btnMain       = require('./btnMain')
+    view: function view(vnode) {
+        const btnMain       = require('./btnMain/btnMain')
         const btnSettings   = require('./btnSettings/btnSettings')
 
-        return ctrl.attrs.m(
+        return vnode.attrs.m(
             "div", {
                 class: ['sidebar']
             },
-            ctrl.attrs.m(btnMain, ctrl.attrs),
-            ctrl.attrs.m(btnSettings, ctrl.attrs)
+            vnode.attrs.m(btnMain, vnode.attrs),
+            vnode.attrs.m(btnSettings, vnode.attrs)
         )
     }
 }

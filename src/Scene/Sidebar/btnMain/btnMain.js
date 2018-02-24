@@ -3,15 +3,13 @@
  */
 
 const btnMain = {
-    controller: function (ctrl) {},
-
-    view: function (ctrl) {
-        return ctrl.attrs.m("button", {
-                class: ctrl.attrs.active_scene === 'Main' ? 'active' : '',
-                onclick: () => {
-                    ctrl.attrs.active_scene = 'Main'
-                }
-            }, 'Main'
+    view: function (vnode) {
+        return vnode.attrs.m("button", {
+            class: vnode.attrs.settings.active_scene.value === 'Main' ? 'active' : '',
+            onclick: () => {
+                vnode.attrs.settings.active_scene = { value: 'Main', hidden: true }
+            }
+        }, 'Main'
         )
     }
 }

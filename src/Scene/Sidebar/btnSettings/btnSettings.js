@@ -2,16 +2,13 @@
 
 
 const btnSettings = {
-    controller: function (ctrl) {
-    },
-
-    view: function (ctrl) {
-        return ctrl.attrs.m("button", {
-            class: ctrl.attrs.active_scene === 'Settings' ? 'active' : '',
+    view: function (vnode) {
+        return vnode.attrs.m("button", {
+            class: vnode.attrs.settings.active_scene.value === 'Settings' ? 'active' : '',
             onclick: () => {
-                    ctrl.attrs.active_scene = "Settings"
-                }
-            }, 'Settings'
+                vnode.attrs.settings.active_scene = { value: 'Settings', hidden: true }
+            }
+        }, 'Settings'
         )
     }
 }
