@@ -15,10 +15,6 @@ const Sidebar = {
             ctrl.attrs.m(btnMain, ctrl.attrs),
             ctrl.attrs.m(btnSettings, ctrl.attrs)
         )
-    },
-
-    oninit: function oninit(ctrl) {
-        ctrl.attrs.log('yeah')
     }
 }
 

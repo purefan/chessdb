@@ -14,19 +14,14 @@ require('./layout.scss')
 
 // Libraries
 const m 		= require("mithril")
-import {Settings, DB, Log} from '../vendor/purefan'
+import {Settings, DB, Log, UCIEngine} from '../vendor/purefan'
 
 // Components
-const Content   = require('./Content/content.js')
-const Sidebar 	= require('./Sidebar')
-
+const Content   	= require('./Content/content')
+const Sidebar 		= require('./Sidebar')
+const EventEmitter 	= require('events')
 const Layout = {
-	controller: function(ctrl) {
-		this.inputValue = m.prop("")
-	},
-
 	view: function(vnode) {
-		console.log('redrawing the Layout view',  state)
 		return m(
 			"div"
 			, { class: 'libase'}
@@ -36,13 +31,13 @@ const Layout = {
 	}
 }
 
-Settings.get()
 const state = {
 	log: 			Log,
 	m: 				m,
 	db: 			DB,
 	settings:		Settings,
-	active_scene: 	'Main' // default
+	UCIEngine: 		UCIEngine,
+	eventer:		new EventEmitter()
 }
 
 m.mount(document.body, Layout)

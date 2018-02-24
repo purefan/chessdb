@@ -12,3 +12,10 @@
     display: table-cell;
     vertical-align: middle;
 }
+
+.table-right {
+    display: table-cell;
+}
+.valign-middle {
+    vertical-align: middle;
+}

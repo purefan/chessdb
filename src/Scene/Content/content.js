@@ -2,15 +2,16 @@
 
 require('./content.scss')
 const Content = {
-    view: (ctrl) => {
-        console.log('Checking ctrl in Content', ctrl)
-        const Main      = require('./Main/main.js')
-        const Settings  = require('./Settings/settings.js')
-        console.log('Active scene: ', ctrl)
-        return ctrl.attrs.m(
+    view: (vnode) => {
+        const Main      = require('./Main/main')
+        const Settings  = require('./Settings/settings')
+
+        const which     = vnode.attrs.settings.active_scene.value
+
+        return vnode.attrs.m(
             'div', {class: 'content'},
-            ctrl.attrs.active_scene === "Main"      ? ctrl.attrs.m(Main, ctrl.attrs) : null,
-            ctrl.attrs.active_scene === "Settings"  ? ctrl.attrs.m(Settings, ctrl.attrs) : null
+            which === "Main"      ? vnode.attrs.m(Main, vnode.attrs) : null,
+            which === "Settings"  ? vnode.attrs.m(Settings, vnode.attrs) : null
         )
     }
 }

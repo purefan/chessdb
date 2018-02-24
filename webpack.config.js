@@ -8,6 +8,7 @@ module.exports = {
         filename: 'libase.js',
         path: path.resolve(__dirname, 'dist')
     },
+    target: 'electron',
     module: {
         rules: [
             {
