@@ -6,8 +6,8 @@ const m = require('mithril')
 
 const engine_panel = {
     oninit: (vnode) => {
-        console.log('[engine_panel::oninit]')
         vnode.state.engine = { state: 'uninitialized' }
+        const self = this
         const settings = vnode.attrs.settings.all
         let engine_settings = find_default_engine(vnode.attrs.settings.all)
         if (!engine_settings) {
@@ -31,14 +31,18 @@ const engine_panel = {
         }
 
         function prepare_engine (vnode, engine_settings){
+            if (vnode.state.engin) {
+                return
+            }
             vnode.state.engine = new vnode.attrs.UCIEngine(engine_settings.path)
-            vnode.attrs.m.redraw()
+            vnode.state.engine.on('info', (what) => {
+                self.engine_output = what
+                setTimeout(vnode.attrs.m.redraw)
+            })
+            setTimeout(vnode.attrs.m.redraw)
 
             vnode.attrs.eventer.on('libase.board.changed', (move) => {
-                console.log('the board changed and I saw it in the panel', move)
                 if (vnode.state.engine && vnode.state.engine.state !== 'idle') {
-                    console.log('Board changed', vnode.attrs.engine)
-                    // Get the FEN from the board
                     vnode.state.engine.analyze(move.fen)
                 }
             })
@@ -48,17 +52,15 @@ const engine_panel = {
         const btn_toggle_analysis = m('button', {
             onclick: () => {
                 if (vnode.state.engine.state === 'idle') {
-                    // get position from board
-                    // send position to engine
-                    console.log(vnode.attrs.ground)
-
                     vnode.state.engine.analyze(vnode.attrs.ground.getFen())
                 }
-
             }
         }, vnode.state.engine.state/*  === 'idle' ? 'start' : 'stop' */)
+        const text_engine_output = m('textarea', {
+            value: this.engine_output
+        })
         const btn_configure = m('button', 'configure')
-        const toolbar = m('div', btn_toggle_analysis, btn_configure)
+        const toolbar       = m('div', btn_toggle_analysis, btn_configure, text_engine_output)
         return m('chess_engine', toolbar)
     }
 }

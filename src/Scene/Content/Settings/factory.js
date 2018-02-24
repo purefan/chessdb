@@ -44,7 +44,7 @@ const Factory = {
                 id: 'onoffswitch',
                 onclick: attrs.m.withAttr('checked', function(value) {
                     setting.value = value
-                    attrs.settings.set(setting.name, setting)
+                    attrs.settings[setting.name] = setting
                 }),
                 checked: !!setting.value
             }),
@@ -71,7 +71,6 @@ const Factory = {
                 const engine = new attrs.UCIEngine(file_path)
 
                 engine.on('ready', () => {
-                    console.log('[Settings::factory] Engine is ready', engine, engine.info, engine.info.id)
                     // build setting to save
                     const new_engine = {
                         id: engine.info.id,
@@ -80,16 +79,13 @@ const Factory = {
                         path: engine.path_to_engine
                     }
 
-                    attrs.settings.get()
-                        .then((settings) => {
-                            console.log('[Settings::factory::get]', settings)
-                            settings.available_engines.manage_engines.value.push(new_engine)
-                            attrs.settings.set({
-                                category: 'available_engines',
-                                name: 'manage_engines',
-                                value: settings.available_engines.manage_engines.value
-                            })
-                        })
+                    const settings = attrs.settings.all
+                    settings.available_engines.manage_engines.value.push(new_engine)
+                    attrs.settings.manage_engines = {
+                        category: 'available_engines',
+                        name: 'manage_engines',
+                        value: settings.available_engines.manage_engines.value
+                    }
                 })
             }
         })

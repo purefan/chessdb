@@ -5,8 +5,8 @@ require('./index.scss')
 const Chessboard = {
     set_up_board: function (vnode) {
         const chessboard    = require('chessground').Chessground
-        const chess_lib     = require('chess.js')
-        vnode.state.pgn = new chess_lib()
+        const chessjs       = require('chess.js')
+        vnode.state.pgn     = new chessjs()
         function toDests() {
             const dests = {};
             vnode.state.pgn.SQUARES.forEach(s => {
@@ -35,6 +35,7 @@ const Chessboard = {
                         } else {
                             valid_move.fen = vnode.state.pgn.fen()
                             vnode.attrs.eventer.emit('libase.board.changed', valid_move)
+                            vnode.attrs.fen = valid_move.fen
                         }
                     }
                 }
@@ -61,8 +62,14 @@ const Chessboard = {
                 lastMove: false
             }
         }
+        if (vnode.attrs.fen) {
+            config.fen = vnode.attrs.fen
+            const loaded_succ = vnode.state.pgn.load(vnode.attrs.fen)
+        }
+
         const board_container = document.getElementById('board_container')
-        vnode.attrs.ground = chessboard(board_container, config)
+        window.ground = vnode.attrs.ground = chessboard(board_container, config)
+
         vnode.attrs.eventer.emit('libase.board.ready')
     },
     resize_board: (vnode) => {
@@ -78,9 +85,7 @@ const Chessboard = {
                 boards[board].style.width = (new_length * factor) + 'px'
                 boards[board].style.height = (new_length * factor) + 'px'
             })
-            // also works but is less accurate:
             document.body.dispatchEvent(new Event('chessground.resize'))
-            // vnode.ground.redrawAll()
         }, 1)
 
     },
@@ -89,16 +94,9 @@ const Chessboard = {
         const board_container = vnode.attrs.m('div', {
             id: 'board_container',
             oncreate: () => {
-
-                if (!vnode.attrs.ground) {
-                    console.log('----- Not set')
-                vnode.state.set_up_board(vnode)
-
+                if (document.getElementsByClassName('cg-board').length < 1) {
+                    vnode.state.set_up_board(vnode)
                 }
-                if (vnode.attrs.ground) {
-                    console.log('---- already set')
-                }
-                console.log('------------------------->>>>>', vnode.attrs.ground)
                 vnode.state.resize_board(vnode)
             },
             onupdate: () => {
@@ -107,7 +105,6 @@ const Chessboard = {
         })
         return board_container
     }
-
 }
 
 module.exports = Chessboard
