@@ -2,8 +2,6 @@
 /**
  * Displays the output of a chess engine
  */
-const m = require('mithril')
-
 const engine_panel = {
     oninit: (vnode) => {
         vnode.state.engine = { state: 'uninitialized' }
@@ -11,7 +9,8 @@ const engine_panel = {
         const settings = vnode.attrs.settings.all
         let engine_settings = find_default_engine(vnode.attrs.settings.all)
         if (!engine_settings) {
-            document.body.addEventListener('vendor.purefan.settings.init', () => {
+            console.log(vnode)
+            vnode.attrs.eventer.on('vendor.purefan.settings.init', () => {
                 engine_settings = find_default_engine(vnode.attrs.settings.all)
                 prepare_engine(vnode, engine_settings)
         }, {once: true})
@@ -31,11 +30,13 @@ const engine_panel = {
         }
 
         function prepare_engine (vnode, engine_settings){
-            if (vnode.state.engin) {
+            if (!vnode.state.engine) {
                 return
             }
             vnode.state.engine = new vnode.attrs.UCIEngine(engine_settings.path)
-            vnode.state.engine.on('info', (what) => {
+            vnode.state.engine.eventer = vnode.attrs.eventer
+            vnode.attrs.eventer.on('vendor.purefan.engine.info', (what) => {
+                console.log('Content::Main::ChessEngine::info', what)
                 self.engine_output = what
                 setTimeout(vnode.attrs.m.redraw)
             })
@@ -49,19 +50,24 @@ const engine_panel = {
         }
     },
     view: (vnode) => {
-        const btn_toggle_analysis = m('button', {
+        const btn_toggle_analysis = vnode.attrs.m('button', {
             onclick: () => {
                 if (vnode.state.engine.state === 'idle') {
                     vnode.state.engine.analyze(vnode.attrs.ground.getFen())
                 }
             }
         }, vnode.state.engine.state/*  === 'idle' ? 'start' : 'stop' */)
-        const text_engine_output = m('textarea', {
-            value: this.engine_output
-        })
-        const btn_configure = m('button', 'configure')
-        const toolbar       = m('div', btn_toggle_analysis, btn_configure, text_engine_output)
-        return m('chess_engine', toolbar)
+
+        const display_moves = require('./linesDisplayer')
+
+        const btn_configure = vnode.attrs.m('button', 'configure')
+        const toolbar       = vnode.attrs.m('div', {class: 'toolbar'},
+            [
+                btn_toggle_analysis
+                , btn_configure
+        ]
+        )
+        return vnode.attrs.m('div', {class: 'chess-engine'}, toolbar, vnode.attrs.m(display_moves, vnode.attrs))
     }
 }
 

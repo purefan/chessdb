@@ -7,9 +7,8 @@ const remote = require('electron').remote;
 const fs = remote.require('fs');
 const { spawn } = require('child_process');
 
-class UCIEngine extends EventEmitter{
+class UCIEngine{
     constructor(path_to_engine) {
-        super()
         this.init(path_to_engine)
     }
 
@@ -33,6 +32,10 @@ class UCIEngine extends EventEmitter{
         this.child.stdin.write(what + "\n")
     }
 
+    set eventer(eventer) {
+        this.event_manager = eventer
+    }
+
     /**
      * Understands what the engine says, populates internal values
      * for later retrieval and emits signals
@@ -40,17 +43,38 @@ class UCIEngine extends EventEmitter{
      */
     process_child_message(message) {
         const what = message.toString()
-        // console.log('[child says]', what)
+        console.log('[child says]', what)
         if (what.includes('uciok')) {
             console.log('[UCI::process_child_message] Emitting ready')
             this.populate_info(what)
-            this.emit('ready', {})
+            this.event_manager.emit('ready', {})
         } else if (what.includes('info depth')) {
-            this.emit('info', what)
+            this.event_manager.emit('vendor.purefan.engine.info', this.prepare_move(what))
         }
         else {
             console.log(`[Child] ${what}`)
         }
+    }
+
+    prepare_move(line) {
+        const fetch_next = 'depth seldepth multipv nodes nps tbhits time currmove currmovenumber cpuload'
+        const move = {}
+        line
+            .replace('info ', '')
+            .replace(/\n[\w\W\s]+/g, '')
+            .split(' ')
+            .forEach((part, index, original_array) => {
+                if (part === 'pv') {
+                    // pv is the line being looked at
+                    move[part] = original_array.slice(index+1)
+                } else if (part === 'score') {
+                    const type_of_score = original_array[index+1]
+                    move[part] = { type_of_score: type_of_score, value: original_array[index + 2] }
+                } else if (fetch_next.includes(part)) {
+                    move[part] = original_array[index + 1]
+                }
+            })
+        return move
     }
 
     analyze(fen) {

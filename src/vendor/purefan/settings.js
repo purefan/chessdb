@@ -34,7 +34,8 @@ const Settings = {
         db.get('settings').then((settings) => {
             self.settings = settings.value
             setTimeout(m.redraw)
-            document.body.dispatchEvent(new Event('vendor.purefan.settings.init', settings.value))
+            self.eventer.emit('vendor.purefan.settings.init', settings.value)
+            // document.body.dispatchEvent(new Event('vendor.purefan.settings.init', settings.value))
         })
         return this
     }
@@ -43,6 +44,11 @@ const Settings = {
 Settings.init()
 const proxied = new Proxy(Settings, {
     set(target, name, value) {
+        // Allow setting the eventer as a property
+        if (name === 'eventer') {
+            target.eventer = value
+            return true
+        }
         if (value.category && !target.settings[value.category]) {
             target.settings[value.category] = {}
         }

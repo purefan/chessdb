@@ -20,24 +20,29 @@ import {Settings, DB, Log, UCIEngine} from '../vendor/purefan'
 const Content   	= require('./Content/content')
 const Sidebar 		= require('./Sidebar')
 const EventEmitter 	= require('events')
+const eventer 		= new EventEmitter()
+
 const Layout = {
 	view: function(vnode) {
 		return m(
 			"div"
 			, { class: 'libase'}
-			, m(Sidebar, state)
-			, m(Content, state)
+			, m(Sidebar, attrs)
+			, m(Content, attrs)
 		)
 	}
 }
 
-const state = {
+// Initialization
+Settings.eventer = eventer
+
+const attrs = {
 	log: 			Log,
 	m: 				m,
 	db: 			DB,
 	settings:		Settings,
 	UCIEngine: 		UCIEngine,
-	eventer:		new EventEmitter()
+	eventer:		eventer
 }
 
 m.mount(document.body, Layout)
