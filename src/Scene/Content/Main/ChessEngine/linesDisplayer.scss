@@ -1,0 +1,17 @@
+@import "../../../../style/default/palette.scss";
+
+table.engine-lines-displayer {
+    width: 100%;
+    background: $light-1;
+    color: $dark-1;
+    height: 50%;
+
+    td {
+        vertical-align: top;
+        cursor: pointer;
+    }
+}
+
+div.chess-engine {
+    height: 50%;
+}

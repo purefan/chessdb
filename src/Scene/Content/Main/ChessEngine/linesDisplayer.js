@@ -1,5 +1,6 @@
 // Listens to feedback from the engine and displayes the best moves
 // Allows double clicking to play that move on the board
+require('./linesDisplayer.scss')
 
 const LinesDisplayer = {
     oninit: function (vnode) {
@@ -7,11 +8,10 @@ const LinesDisplayer = {
         vnode.attrs.eventer.on('vendor.purefan.engine.info', (what) => {
             this.engine_output[what.multipv] = what
             console.log('-- linesDisplayer', what)
+            setTimeout(vnode.attrs.m.redraw)
         })
     },
     view: function (vnode) {
-        console.log('engine_output ', this.engine_output, Object.keys(this.engine_output))
-
         // make it a table
         let lines = []
         Object.keys(this.engine_output).forEach((index) => {
@@ -23,9 +23,9 @@ const LinesDisplayer = {
             lines.push(tr)
         })
 
-        const viewer = vnode.attrs.m('table', lines)
-
-
+        const viewer = vnode.attrs.m('table', {
+            class: 'engine-lines-displayer'
+        },lines)
         return viewer
     }
 }
