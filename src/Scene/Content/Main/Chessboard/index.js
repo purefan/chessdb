@@ -68,8 +68,10 @@ const Chessboard = {
         }
 
         const board_container = document.getElementById('board_container')
-        window.ground = vnode.attrs.ground = chessboard(board_container, config)
-
+        vnode.attrs.ground = chessboard(board_container, config)
+        // hijack ground's getFen as a quick-n-dirty poc fix
+        /* @todo fix this */
+        vnode.attrs.ground.getFen = vnode.state.pgn.fen
         vnode.attrs.eventer.emit('libase.board.ready')
     },
     resize_board: (vnode) => {
@@ -84,10 +86,11 @@ const Chessboard = {
                 const factor = 0.8
                 boards[board].style.width = (new_length * factor) + 'px'
                 boards[board].style.height = (new_length * factor) + 'px'
+
+                document.getElementsByClassName('main_left')[0].style.width = ((new_length * factor) + 50) + 'px'
             })
             document.body.dispatchEvent(new Event('chessground.resize'))
-        }, 1)
-
+        })
     },
     view: (vnode) => {
         const self = this
