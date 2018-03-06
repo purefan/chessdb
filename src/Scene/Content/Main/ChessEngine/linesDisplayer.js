@@ -13,7 +13,7 @@ const LinesDisplayer = {
     },
     view: function (vnode) {
         // make it a table
-        let lines = []
+        const lines = []
         Object.keys(this.engine_output).forEach((index) => {
             const line = this.engine_output[index]
             console.log('line', line)

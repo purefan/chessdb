@@ -31,7 +31,7 @@ const Chessboard = {
                     after: (orig, dest, meta) => {
                         const valid_move = vnode.state.pgn.move({ from: orig, to: dest })
                         if (!valid_move) {
-                            vnode.attrs.ground.set({ fen: vnode.state.pgn.fen() })
+                            this.ground.set({ fen: vnode.state.pgn.fen() })
                         } else {
                             valid_move.fen = vnode.state.pgn.fen()
                             vnode.attrs.eventer.emit('libase.board.changed', valid_move)
@@ -68,10 +68,11 @@ const Chessboard = {
         }
 
         const board_container = document.getElementById('board_container')
-        vnode.attrs.ground = chessboard(board_container, config)
-        // hijack ground's getFen as a quick-n-dirty poc fix
-        /* @todo fix this */
-        vnode.attrs.ground.getFen = vnode.state.pgn.fen
+        this.ground = chessboard(board_container, config)
+        vnode.attrs.chessboard = {
+            getFen : vnode.state.pgn.fen,
+            getMoves: vnode.state.pgn.history
+        }
         vnode.attrs.eventer.emit('libase.board.ready')
     },
     resize_board: (vnode) => {

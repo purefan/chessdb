@@ -1,3 +1,5 @@
+@import "../../../style/default/palette.scss";
+
 .main {
   display: table;
   height: 100%;
@@ -14,4 +16,10 @@
   display: table-cell;
   border-left: 1px solid #000;
   vertical-align: top;
+
+  .panel {
+    border: 1px solid $dark-2;
+    margin-top: 1%;
+    margin-bottom: 1%;
+  }
 }

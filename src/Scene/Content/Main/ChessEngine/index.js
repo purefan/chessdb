@@ -48,7 +48,7 @@ const engine_panel = {
         const btn_toggle_analysis = vnode.attrs.m('button', {
             onclick: () => {
                 if (vnode.state.engine.state === 'idle') {
-                    vnode.state.engine.analyze(vnode.attrs.ground.getFen())
+                    vnode.state.engine.analyze(vnode.attrs.chessboard.getFen())
                 }
             }
         }, vnode.state.engine.state/*  === 'idle' ? 'start' : 'stop' */)
@@ -64,7 +64,7 @@ const engine_panel = {
         )
         return vnode.attrs.m(
             'div',
-            { class: 'chess-engine' },
+            { class: 'chess-engine panel' },
             toolbar,
             vnode.attrs.m(display_moves, vnode.attrs)
         )

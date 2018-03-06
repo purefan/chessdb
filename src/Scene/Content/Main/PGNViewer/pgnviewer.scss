@@ -1,0 +1,22 @@
+@import "../../../../style/default/palette.scss";
+
+div.pgnviewer {
+    height: 30%;
+    table {
+        width: 90%;
+        tr {
+            td:first-child {
+                width: 20%;
+                text-align: right;
+            }
+            td:nth-child(2) {
+                width: 30%;
+                text-align: left;
+            }
+            td:nth-child(3) {
+                width: 30%;
+                text-align: left;
+            }
+        }
+    }
+}
