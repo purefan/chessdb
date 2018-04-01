@@ -9,9 +9,15 @@ const btnToggle = {
         vnode.state.ipc = require('electron').ipcRenderer
         vnode.state.ipc.send('uciengine-status')
         vnode.state.ipc.on('uciengine-status', function(event, message){
-            console.log('uciengine-status', message)
             vnode.state.uciengine_state = message.state
             setTimeout(vnode.attrs.m.redraw)
+        })
+
+        vnode.attrs.eventer.on('libase.board.changed', () => {
+            if (vnode.state.uciengine_state === 'analysing') {
+                const fen = vnode.attrs.chessboard.getFen()
+                vnode.state.ipc.send('uciengine-analyse', fen)
+            }
         })
     },
     view: function (vnode) {

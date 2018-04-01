@@ -50,8 +50,11 @@ function createWindow() {
         // win.webContents.send('uciengine-status')
         })
         uciengine.event_manager.on('vendor.purefan.engine.info', function(info){
-            console.log('[Main::UCI::info]', info)
             win.webContents.send('vendor.purefan.engine.info', info)
+        })
+        uciengine.event_manager.on('vendor.purefan.engine.status', function(){
+            console.log('[Main::UCI::status]')
+            win.webContents.send('uciengine-status', {state: uciengine.state})
         })
     })
     ipcMain.on('uciengine-analyse', function(internal, params) {

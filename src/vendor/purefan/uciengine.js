@@ -82,12 +82,18 @@ class UCIEngine{
         console.log('[UCI::analyze] (an alias function to start_analysis)' + fen)
         this.tell_engine('position fen ' + fen)
         this.tell_engine('go')
-        this.state = 'analysing'
+        this.set_state('analysing')
+    }
+
+    set_state(state) {
+        this.state = state
+        this.event_manager.emit('vendor.purefan.engine.status')
+        console.log('[UCI::set_state]' + state)
     }
 
     stop_analysis() {
         console.log('[UCI::stop_analysis]')
-        this.state = 'idle'
+        this.set_state('idle')
         this.tell_engine('stop')
     }
 
