@@ -9,6 +9,9 @@ The setting module
 
 #### setting.get(<string>)
 
-### menu
-You can manipulate the application's menu:
+### engine
+There is support for only one engine running at a time.
+the main electron process listens to the following events:
+- uciengine-init: Takes a settings object
+- uciengine-analyze: Takes a fen
 

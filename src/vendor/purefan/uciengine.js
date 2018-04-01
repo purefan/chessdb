@@ -1,24 +1,25 @@
 'use strict'
 
-import { setTimeout } from 'timers';
 const EventEmitter = require('events')
 
-const remote = require('electron').remote;
-const fs = remote.require('fs');
+const remote = require('electron');
 const { spawn } = require('child_process');
 
 class UCIEngine{
-    constructor(path_to_engine) {
-        this.init(path_to_engine)
+    constructor(settings) {
+        if (settings) {
+            this.init(settings)
+        }
     }
 
-    init(path_to_engine) {
-        this.path_to_engine = path_to_engine
+    init(settings) {
+        this.path_to_engine = settings.path
         this.engine_ready   = false
         this.child          = spawn(this.path_to_engine)
         this.info           = {}
         this.options        = []
         this.state          = 'idle'
+        this.event_manager = new EventEmitter()
         this.tell_engine('uci')
         this.child.stdout.on('data', (data) => {
             this.process_child_message(data)
@@ -28,13 +29,10 @@ class UCIEngine{
         })
     }
     tell_engine(what) {
-        console.log(`Telling the engine ${what}`)
+        console.log(`[UCI::tell_engine] ${what}`)
         this.child.stdin.write(what + "\n")
     }
 
-    set eventer(eventer) {
-        this.event_manager = eventer
-    }
 
     /**
      * Understands what the engine says, populates internal values
@@ -43,17 +41,20 @@ class UCIEngine{
      */
     process_child_message(message) {
         const what = message.toString()
-        console.log('[child says]', what)
         if (what.includes('uciok')) {
-            console.log('[UCI::process_child_message] Emitting ready')
-            this.populate_info(what)
-            this.event_manager.emit('ready', {})
+            this.engine_init(what)
         } else if (what.includes('info depth')) {
             this.event_manager.emit('vendor.purefan.engine.info', this.prepare_move(what))
         }
         else {
-            console.log(`[Child] ${what}`)
+            console.log(`[UCI::Child] ${what}`)
         }
+    }
+
+    engine_init(what) {
+        console.log('[UCI::process_child_message] Emitting vendor.purefan.uciengine.uciok')
+        this.populate_info(what)
+        this.event_manager.emit('vendor.purefan.uciengine.uciok', {})
     }
 
     prepare_move(line) {
@@ -78,13 +79,9 @@ class UCIEngine{
     }
 
     analyze(fen) {
-        console.log('[analyze] (an alias function to start_analysis)' + fen)
+        console.log('[UCI::analyze] (an alias function to start_analysis)' + fen)
         this.tell_engine('position fen ' + fen)
         this.tell_engine('go')
-        this.state = 'analysing'
-    }
-    start_analysis() {
-        console.log('[UCI::start_analysis]')
         this.state = 'analysing'
     }
 
@@ -148,4 +145,5 @@ class UCIEngine{
     }
 }
 
-export default UCIEngine
+// export default UCIEngine
+module.exports = UCIEngine

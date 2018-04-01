@@ -14,7 +14,7 @@ require('./layout.scss')
 
 // Libraries
 const m 		= require("mithril")
-import {Settings, DB, Log, UCIEngine} from '../vendor/purefan'
+import {Settings, DB} from '../vendor/purefan'
 
 // Components
 const Content   	= require('./Content/content')
@@ -37,11 +37,10 @@ const Layout = {
 Settings.eventer = eventer
 
 const attrs = {
-	log: 			Log,
 	m: 				m,
 	db: 			DB,
 	settings:		Settings,
-	UCIEngine: 		UCIEngine,
+	UCIEngine: 		null ,
 	eventer:		eventer
 }
 

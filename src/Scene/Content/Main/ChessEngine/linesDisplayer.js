@@ -4,8 +4,9 @@ require('./linesDisplayer.scss')
 
 const LinesDisplayer = {
     oninit: function (vnode) {
+        vnode.state.ipc = require('electron').ipcRenderer
         this.engine_output = {1: {pv:[], score: {value: ''}}}
-        vnode.attrs.eventer.on('vendor.purefan.engine.info', (what) => {
+        vnode.state.ipc.on('vendor.purefan.engine.info', (event, what) => {
             this.engine_output[what.multipv] = what
             console.log('-- linesDisplayer', what)
             setTimeout(vnode.attrs.m.redraw)

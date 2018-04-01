@@ -3,12 +3,14 @@ const path = require('path')
 const url = require('url')
 const settings = require('./package.json').settings
 const ipcMain = require('electron').ipcMain;
+const UCIEngine = require('./src/vendor/purefan/uciengine')
 
 require('electron-reload')(settings.path.dist)
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win
+const uciengine = new UCIEngine()
 
 function createWindow() {
     // Create the browser window.
@@ -39,6 +41,30 @@ function createWindow() {
         console.log(win.webContents)
         win.webContents.send('from-main-process', channel, data)
     });
+
+    ipcMain.on('uciengine-init', function(internal, settings) {
+        uciengine.init(settings)
+        uciengine.event_manager.on('vendor.purefan.uciengine.uciok', function(){
+            console.log('[IPC::uciengine] on ready')
+            win.webContents.send('uciengine-status', {state: uciengine.state})
+        // win.webContents.send('uciengine-status')
+        })
+        uciengine.event_manager.on('vendor.purefan.engine.info', function(info){
+            console.log('[Main::UCI::info]', info)
+            win.webContents.send('vendor.purefan.engine.info', info)
+        })
+    })
+    ipcMain.on('uciengine-analyse', function(internal, params) {
+        console.log('[IPC::uciengine::analyze]', params)
+        uciengine.analyze(params)
+    })
+
+    ipcMain.on('uciengine-status', function(internal) {
+        console.log('[IPC::uciengine::status]', uciengine.state)
+        win.webContents.send('uciengine-status', {state: uciengine.state})
+    })
+
+
 
     /* ipcMain.on('synchronous-message', function (event, arg) {
         console.log(arguments);  // prints "ping"

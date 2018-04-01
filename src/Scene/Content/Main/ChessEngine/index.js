@@ -4,8 +4,8 @@
  */
 const engine_panel = {
     oninit: (vnode) => {
-        vnode.state.engine = { state: 'uninitialized' }
-        const self = this
+        vnode.attrs.engine = { state: 'uninitialized' }
+
         const settings = vnode.attrs.settings.all
         let engine_settings = find_default_engine(vnode.attrs.settings.all)
         if (!engine_settings) {
@@ -29,36 +29,34 @@ const engine_panel = {
         }
 
         function prepare_engine(vnode, engine_settings) {
-            if (!vnode.state.engine) {
-                return
-            }
-            vnode.state.engine = new vnode.attrs.UCIEngine(engine_settings.path)
-            vnode.state.engine.eventer = vnode.attrs.eventer
-
-            setTimeout(vnode.attrs.m.redraw)
+            console.log('prepare_engine', engine_settings)
+            const ipc = require('electron').ipcRenderer
+            ipc.send('uciengine-init', engine_settings)
 
             vnode.attrs.eventer.on('libase.board.changed', (move) => {
-                if (vnode.state.engine && vnode.state.engine.state !== 'idle') {
-                    vnode.state.engine.analyze(move.fen)
-                }
+                ipc.send('uciengine-analyze', move.fen)
             })
         }
     },
     view: (vnode) => {
         const btn_toggle_analysis = vnode.attrs.m('button', {
             onclick: () => {
-                if (vnode.state.engine.state === 'idle') {
-                    vnode.state.engine.analyze(vnode.attrs.chessboard.getFen())
+                if (vnode.attrs.engine.state === 'idle') {
+                    vnode.attrs.engine.analyze(vnode.attrs.chessboard.getFen())
                 }
             }
-        }, vnode.state.engine.state/*  === 'idle' ? 'start' : 'stop' */)
+        }, vnode.attrs.engine.state/*  === 'idle' ? 'start' : 'stop' */)
 
-        const display_moves = require('./linesDisplayer')
+        const display_moves             = require('./linesDisplayer')
+        const new_btn_toggle_analysis   = require('./btnToggle')
 
         const btn_configure = vnode.attrs.m('button', 'configure')
+        const new_toggle    = vnode.attrs.m(new_btn_toggle_analysis, vnode.attrs)
         const toolbar = vnode.attrs.m('div', { class: 'toolbar' },
             [
-                btn_toggle_analysis
+                // btn_toggle_analysis
+                new_toggle
+                // vnode.attrs.m(new_btn_toggle_analysis, vnode.attrs)
                 , btn_configure
             ]
         )
