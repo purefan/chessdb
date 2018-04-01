@@ -67,6 +67,10 @@ function createWindow() {
         win.webContents.send('uciengine-status', {state: uciengine.state})
     })
 
+    ipcMain.on('uciengine-stop', function(){
+        uciengine.stop_analysis()
+    })
+
 
 
     /* ipcMain.on('synchronous-message', function (event, arg) {

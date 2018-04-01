@@ -24,9 +24,16 @@ const btnToggle = {
         return vnode.attrs.m('button', {
             class: '',
             onclick: () => {
-                const fen = vnode.attrs.chessboard.getFen()
-                console.log('Clicked btnToggle with fen ' + fen)
-                vnode.state.ipc.send('uciengine-analyse', fen)
+                if (vnode.state.uciengine_state === 'idle') {
+                    // activate
+                    const fen = vnode.attrs.chessboard.getFen()
+                    console.log('Clicked btnToggle with fen ' + fen)
+                    vnode.state.ipc.send('uciengine-analyse', fen)
+                } else {
+                    // deactivate
+                    vnode.state.ipc.send('uciengine-stop')
+                }
+
             }
         },
         vnode.state.uciengine_state /* === 'idle' ? 'Go' : 'Stop' */
