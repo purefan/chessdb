@@ -2,7 +2,6 @@ require('./pgnviewer.scss')
 const PGNViewer = {
     oninit: (vnode) => {
         vnode.attrs.eventer.on('libase.board.changed', (move) => {
-            console.log('-- pgnviewer board changed', move, vnode.attrs.chessboard)
             setTimeout(vnode.attrs.m.redraw)
         })
     },
@@ -16,7 +15,6 @@ const PGNViewer = {
             const trs = []
             let temp_move
             const board_moves = vnode.attrs.chessboard.getMoves()
-            console.log('board_moves: ', board_moves)
             board_moves.forEach((move) => {
                 // we are creating black's move
                 if (temp_move) {

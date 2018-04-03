@@ -65,11 +65,10 @@ const Factory = {
     make_engine_file_picker: (attrs, setting) => {
         return attrs.m('input[type=file]', {
             onchange: (e) => {
-                // Run validation
                 const file_path = e.target.files[0].path
-                // then update the settings object
+                // This engine is used only to get the options
+                // and update the database with the default values
                 const engine = new attrs.UCIEngine(file_path)
-
                 engine.on('ready', () => {
                     // build setting to save
                     const new_engine = {

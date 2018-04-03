@@ -6,11 +6,11 @@ const Chessboard = {
     set_up_board: function (vnode) {
         const chessboard    = require('chessground').Chessground
         const chessjs       = require('chess.js')
-        vnode.state.pgn     = new chessjs()
+        vnode.state.chessjs = new chessjs()
         function toDests() {
             const dests = {};
-            vnode.state.pgn.SQUARES.forEach(s => {
-                const ms = vnode.state.pgn.moves({ square: s, verbose: true });
+            vnode.state.chessjs.SQUARES.forEach(s => {
+                const ms = vnode.state.chessjs.moves({ square: s, verbose: true });
                 if (ms.length) {
                     dests[s] = ms.map(m => m.to)
                 }
@@ -29,11 +29,11 @@ const Chessboard = {
                 dropOff: 'trash',
                 events: {
                     after: (orig, dest, meta) => {
-                        const valid_move = vnode.state.pgn.move({ from: orig, to: dest })
+                        const valid_move = vnode.state.chessjs.move({ from: orig, to: dest })
                         if (!valid_move) {
-                            this.ground.set({ fen: vnode.state.pgn.fen() })
+                            this.ground.set({ fen: vnode.state.chessjs.fen() })
                         } else {
-                            valid_move.fen = vnode.state.pgn.fen()
+                            valid_move.fen = vnode.state.chessjs.fen()
                             vnode.attrs.eventer.emit('libase.board.changed', valid_move)
                             vnode.attrs.fen = valid_move.fen
                         }
@@ -64,14 +64,14 @@ const Chessboard = {
         }
         if (vnode.attrs.fen) {
             config.fen = vnode.attrs.fen
-            const loaded_succ = vnode.state.pgn.load(vnode.attrs.fen)
+            const loaded_succ = vnode.state.chessjs.load(vnode.attrs.fen)
         }
 
         const board_container = document.getElementById('board_container')
         this.ground = chessboard(board_container, config)
         vnode.attrs.chessboard = {
-            getFen : vnode.state.pgn.fen,
-            getMoves: vnode.state.pgn.history
+            getFen : vnode.state.chessjs.fen,
+            getMoves: vnode.state.chessjs.history
         }
         vnode.attrs.eventer.emit('libase.board.ready')
     },
