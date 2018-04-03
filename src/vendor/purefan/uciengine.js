@@ -72,7 +72,7 @@ class UCIEngine{
                     const type_of_score = original_array[index+1]
                     move[part] = { type_of_score: type_of_score, value: original_array[index + 2] }
                 } else if (fetch_next.includes(part)) {
-                    move[part] = original_array[index + 1]
+                    move[part] = original_array[index + 1].replace(/\s/,'')
                 }
             })
         return move
@@ -145,7 +145,7 @@ class UCIEngine{
                     option[part] = value
                 }
             })
-            // console.log('[UCI::parse_option] New option is', option)
+
             return option
         }
     }
